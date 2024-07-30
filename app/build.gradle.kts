@@ -83,4 +83,8 @@ dependencies {
 
     //Pusher
     implementation (libs.pusher.java.client)
+
+    //SSP & SDP
+    implementation("com.intuit.ssp:ssp-android:1.1.1")
+    implementation("com.intuit.sdp:sdp-android:1.1.1")
 }

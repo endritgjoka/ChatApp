@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_logout_dialog"
+    >
+
+    <LinearLayout
+        android:id="@+id/details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="@dimen/padding14"
+        android:gravity="center"
+
+        >
+        <ImageButton
+            android:id="@+id/logout_icon"
+            android:layout_width="@dimen/button48"
+            android:layout_height="@dimen/button48"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/ic_logout"
+            />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding10"
+            android:fontFamily="@font/medium"
+            android:text="@string/are_you_sure_to_log_out"
+            android:textAlignment="center"
+            android:textSize="@dimen/txtSize20" />
+    </LinearLayout>
+
+
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/translation1"
+        app:layout_constraintTop_toBottomOf="@id/details"
+        android:background="@color/border_color"
+        android:layout_marginTop="@dimen/padding14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/padding24"
+        android:layout_marginVertical="@dimen/padding14"
+        app:layout_constraintTop_toBottomOf="@id/line"
+        android:gravity="end"
+        >
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:text="@string/cancel"
+            android:textSize="@dimen/txtSize14"
+            android:textColor="@color/text_color"
+            android:paddingVertical="@dimen/padding6"
+            android:layout_marginEnd="@dimen/padding16"
+            app:strokeWidth="@dimen/_1sdp"
+            app:strokeColor="@color/border_color"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/log_out_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/SFPBlue"
+            android:textColor="@color/white"
+            android:text="@string/confirm"
+            android:textSize="@dimen/txtSize14"
+            android:paddingVertical="@dimen/padding10"
+            app:strokeWidth="@dimen/_1sdp"
+            app:strokeColor="@color/border_color"
+            />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

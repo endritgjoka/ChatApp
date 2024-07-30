@@ -2,4 +2,44 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bottom">#F0FFFFFF</color>
+    <color name="blue">#0E9AFF</color>
+    <color name="light_blue">#47A8EF</color>
+    <color name="border_color">#E8ECF4</color>
+    <color name="grey">#8391A1</color>
+    <color name="dark_grey">#6A707C</color>
+    <color name="dark">#1E232C</color>
+    <color name="neutral_grey">#6A707C</color>
+    <color name="darker">#0A090B</color>
+    <color name="grey_white">#F0F9F9F9</color>
+    <color name="profile_name">#000000</color>
+    <color name="no_notifications">#4A4A4A</color>
+    <color name="unselected_tab">#C3BFBF</color>
+    <color name="light_grey">#1F767680</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#097969</color>
+    <color name="text_color">#4F4D55</color>
+
+    <color name="SFPOverlay">#F9FAFF</color>
+    <color name="SFPBlack">#FF000000</color>
+    <color name="SFPDarkBlack">#0A090B</color>
+    <color name="SFPDark">#2D2B32</color>
+    <color name="SFPGrey">#7F7D83</color>
+    <color name="SFPBlue">#105DFB</color>
+    <color name="SFPLightWhite">#F9F9F9</color>
+    <color name="SFPStrokeGray">#F2F2F7</color>
+    <color name="SFPBlueBorderColor">#32105DFB</color>
+    <color name="SFPGreen">#018030</color>
+    <color name="SFPRed">#E12121</color>
+    <color name="SFPRed25">#40E12121</color>
+    <color name="SFPWhite70">#B3FFFFFF</color>
+    <color name="SFPWhite5">#0DFFFFFF</color>
+    <color name="SFPStrokeGreen">#018030</color>
+    <color name="SFPDarkYellow">#EC980C</color>
+    <color name="SFPTitleColor">#1C1C1E</color>
+    <color name="SFPInstallmentWeekColor">#E6636366</color>
+    <color name="SFPDashboardTextColor">#363840</color>
+    <color name="SFPDashboardTextColor70">#B3363840</color>
+    <color name="SFPDashboardTextColor5">#0D363840</color>
+
 </resources>

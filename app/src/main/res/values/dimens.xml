@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="logo_dimen">@dimen/_40sdp</dimen>
+
+    <dimen name="txtSize8">@dimen/_6ssp</dimen>
+    <dimen name="txtSize10">@dimen/_8ssp</dimen>
+    <dimen name="txtSize12">@dimen/_9ssp</dimen>
+    <dimen name="txtSize14">@dimen/_10ssp</dimen>
+    <dimen name="txtSize16">@dimen/_12ssp</dimen>
+    <dimen name="txtSize18">@dimen/_14ssp</dimen>
+    <dimen name="txtSize20">@dimen/_15ssp</dimen>
+    <dimen name="txtSize22">@dimen/_16ssp</dimen>
+    <dimen name="txtSize24">@dimen/_18ssp</dimen>
+    <dimen name="txtSize30">@dimen/_22ssp</dimen>
+    <dimen name="txtSize48">@dimen/_36ssp</dimen>
+
+    <dimen name="padding3">@dimen/_2sdp</dimen>
+    <dimen name="padding6">@dimen/_4sdp</dimen>
+    <dimen name="padding8">@dimen/_6sdp</dimen>
+    <dimen name="padding10">@dimen/_7sdp</dimen>
+    <dimen name="padding12">@dimen/_9sdp</dimen>
+    <dimen name="padding14">@dimen/_10sdp</dimen>
+    <dimen name="padding16">@dimen/_12sdp</dimen>
+    <dimen name="padding18">@dimen/_14sdp</dimen>
+    <dimen name="padding20">@dimen/_15sdp</dimen>
+    <dimen name="padding24">@dimen/_18sdp</dimen>
+    <dimen name="padding30">@dimen/_25sdp</dimen>
+    <dimen name="padding40">@dimen/_30sdp</dimen>
+    <dimen name="padding48">@dimen/_36sdp</dimen>
+    <dimen name="padding52">@dimen/_40sdp</dimen>
+
+    <dimen name="padding120">@dimen/_120sdp</dimen>
+    <dimen name="padding60">@dimen/_60sdp</dimen>
+
+    <dimen name="button48">@dimen/_36sdp</dimen>
+    <dimen name="image20">@dimen/_15sdp</dimen>
+    <dimen name="image90">@dimen/_68sdp</dimen>
+    <dimen name="image200">@dimen/_150sdp</dimen>
+
+
+    <dimen name="radius100">@dimen/_75sdp</dimen>
+    <dimen name="radius4">@dimen/_3sdp</dimen>
+
+
+    <dimen name="translation1">@dimen/_1sdp</dimen>
+
+
+</resources>
