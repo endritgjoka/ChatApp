@@ -54,7 +54,7 @@
             android:id="@+id/usernameInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/username"
+            android:hint="@string/full_name"
             android:layout_marginBottom="@dimen/padding6"
             android:textColorHint="@color/grey"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
