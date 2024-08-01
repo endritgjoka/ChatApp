@@ -78,7 +78,7 @@
             android:id="@+id/log_out_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/SFPBlue"
+            android:backgroundTint="@color/ChatBlue"
             android:textColor="@color/white"
             android:text="@string/confirm"
             android:textSize="@dimen/txtSize14"

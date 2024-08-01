@@ -14,16 +14,30 @@
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
-            <ImageView
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/background"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_400sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_chat_logo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/padding48"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/blue" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                >
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_chat_logo"
+                    android:scaleType="fitCenter"
+                    app:tint="@color/blue"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="h,1:1.1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <LinearLayout
                 android:id="@+id/buttons"
@@ -55,7 +69,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_25sdp"
+                    android:layout_marginTop="@dimen/padding20"
                     android:fontFamily="@font/regular"
                     android:text="@string/login_or_register"
                     android:textColor="@color/neutral_grey"

@@ -5,8 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/padding10"
     tools:context=".presentation.views.activities.HomeActivity"
-    android:layout_marginHorizontal="@dimen/padding10">
+   >
 
     <Toolbar
         android:id="@+id/toolbar"
@@ -15,6 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         >
         <ImageButton
+            android:id="@+id/open_popup"
             android:layout_width="@dimen/button48"
             android:layout_height="@dimen/button48"
             android:src="@drawable/ic_settings"
