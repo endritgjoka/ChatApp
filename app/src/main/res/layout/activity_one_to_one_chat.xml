@@ -28,7 +28,7 @@
                 android:layout_height="@dimen/_36sdp"
                 android:contentDescription=""
                 android:src="@drawable/ic_back"
-                android:background="@android:color/transparent"/>
+                android:background="@android:color/transparent" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -66,11 +66,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:gravity="end"
         app:layout_constraintBottom_toTopOf="@+id/bottom"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
-            android:id="@+id/noMessagesLinear"
+            android:id="@+id/noMessagesLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -93,7 +94,8 @@
                 android:layout_gravity="center"
                 android:text="Amanda."
                 android:textColor="@color/grey"
-                android:textSize="@dimen/_10ssp" />
+                android:textSize="@dimen/_10ssp"
+                android:layout_marginStart="@dimen/padding6" />
         </LinearLayout>
 
         <ProgressBar
@@ -105,14 +107,16 @@
             android:indeterminateTint="@color/blue"
             android:visibility="visible" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewForMessages"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:visibility="visible" />
     </LinearLayout>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewForMessages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/bottom"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <LinearLayout
         android:id="@+id/bottom"
@@ -127,7 +131,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/imagesRecyclerView"
             android:layout_width="wrap_content"
@@ -136,7 +139,6 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:orientation="horizontal"
             android:visibility="gone" />
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -167,8 +169,6 @@
                 android:src="@drawable/ic_send"
                 android:visibility="gone" />
         </LinearLayout>
-
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

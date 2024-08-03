@@ -35,5 +35,6 @@
     <string name="enter_your_password">Enter your password</string>
     <string name="fields_are_required">Fields are required!</string>
     <string name="register_to_get_started">Register to get started!</string>
+    <string name="no_messages_yet">No messages yet. Start chatting now.</string>
 
 </resources>

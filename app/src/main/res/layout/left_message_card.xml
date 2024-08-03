@@ -55,7 +55,8 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/txtSize18"
                     android:layout_gravity="left"
-                    android:fontFamily="@font/bold"/>
+                    android:fontFamily="@font/bold"
+                    android:visibility="gone"/>
                 <TextView
                     android:id="@+id/content"
                     android:layout_width="wrap_content"

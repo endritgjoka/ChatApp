@@ -62,6 +62,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/search"
             android:inputType="text"
+            android:imeOptions="actionSearch"
             android:textColorHint="@color/grey"
             android:maxLines="1"/>
 
@@ -73,45 +74,56 @@
             android:src="@drawable/ic_delete"
             android:visibility="invisible" />
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:indeterminateTint="@color/blue"
+        android:visibility="visible"
+        app:layout_constraintTop_toBottomOf="@+id/search_layout"
+        />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/chats_recycler_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
-<!--        android:layout_marginTop="@dimen/padding14"/>-->
-
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chats_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/search_layout"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/padding14">
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
-        <include layout="@layout/chat_card_view"
-            app:layout_constraintTop_toBottomOf="@+id/search_layout"
-            />
+        android:layout_marginTop="@dimen/padding14"
+        android:visibility="gone"/>
 
-    </LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_marginTop="@dimen/padding14">-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+<!--        <include layout="@layout/chat_card_view"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/search_layout"-->
+<!--            />-->
+
+<!--    </LinearLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

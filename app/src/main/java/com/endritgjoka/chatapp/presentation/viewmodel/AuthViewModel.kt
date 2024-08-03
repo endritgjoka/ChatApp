@@ -48,7 +48,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    suspend fun register(registerRequest: RegisterRequest) {
+     fun register(registerRequest: RegisterRequest) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = ApiHandler.safeApiCall { chatRepository.register(registerRequest) }
 

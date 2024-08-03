@@ -47,15 +47,6 @@
                 android:paddingVertical="@dimen/padding3"
                 android:paddingHorizontal="@dimen/padding10">
 
-                <TextView
-                    android:id="@+id/thisUserFullname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/me"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/txtSize18"
-                    android:layout_gravity="right"
-                    android:fontFamily="@font/bold"/>
 
                 <TextView
                     android:id="@+id/content"
@@ -63,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:maxWidth="@dimen/_185sdp"
                     android:text="Productivity"
-                    android:layout_gravity="left"
+                    android:layout_gravity="right"
                     android:textColor="@color/black"
                     android:textSize="@dimen/txtSize18"
                     />
