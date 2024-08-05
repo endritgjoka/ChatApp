@@ -17,6 +17,7 @@ class ChatApp : Application(){
     companion object {
         lateinit var application: ChatApp
         var userChannel: PrivateChannel ?= null
+        var clickedConversationRecipientId = -1
 
 
         private fun setApp(app: ChatApp) {

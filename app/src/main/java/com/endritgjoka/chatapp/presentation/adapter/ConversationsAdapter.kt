@@ -2,6 +2,7 @@ package com.endritgjoka.chatapp.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -61,24 +62,40 @@ class ConversationsAdapter : RecyclerView.Adapter<ConversationsAdapter.MyViewHol
 
     inner class MyViewHolder(private val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("NotifyDataSetChanged")
+        @SuppressLint("NotifyDataSetChanged", "ResourceAsColor")
         fun bind(conversationResponse: ConversationResponse) {
             when (binding) {
                 is ChatCardViewBinding -> {
-                    with(binding){
+                    with(binding) {
                         recipientName.text = conversationResponse.recipient.fullName
-                        if(conversationResponse.lastMessage != null){
-                            lastMessage.text = conversationResponse.lastMessage?.decryptedMessage
+
+                        val unreadMessages = conversationResponse.conversation?.unreadMessages ?: 0
+                        val hasUnreadMessages = unreadMessages > 0
+
+                        if (conversationResponse.lastMessage != null) {
+                            if (hasUnreadMessages) {
+                                binding.badge.visibility = View.VISIBLE
+                                lastMessage.setTextColor(R.color.ChatBlue)
+                                lastMessage.text = ChatApp.application.getString(
+                                    if (unreadMessages == 1) R.string.new_message else R.string.new_messages
+                                )
+                                binding.unreadNotificationsCount.text = if (unreadMessages > 10) "10+" else unreadMessages.toString()
+                            } else {
+                                lastMessage.setTextColor(R.color.text_color)
+                                binding.badge.visibility = View.INVISIBLE
+                                lastMessage.text = conversationResponse.lastMessage?.decryptedMessage
+                            }
                             time.text = conversationResponse.lastMessage?.formattedTime
-                        }else{
+                        } else {
                             lastMessage.text = ChatApp.application.getString(R.string.no_messages_yet)
                             time.text = ""
                         }
 
-                        root.setOnClickListener{
+                        root.setOnClickListener {
                             customListener.onChatClicked(conversationResponse)
                         }
                     }
+
                 }
             }
         }

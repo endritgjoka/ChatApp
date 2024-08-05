@@ -28,6 +28,7 @@ import com.endritgjoka.chatapp.data.utils.showKeyboard
 import com.endritgjoka.chatapp.databinding.ActivityOneToOneChatBinding
 import com.endritgjoka.chatapp.databinding.ChatCardViewBinding
 import com.endritgjoka.chatapp.presentation.ChatApp
+import com.endritgjoka.chatapp.presentation.ChatApp.Companion.clickedConversationRecipientId
 import com.endritgjoka.chatapp.presentation.ChatApp.Companion.userChannel
 import com.endritgjoka.chatapp.presentation.adapter.ConversationsAdapter
 import com.endritgjoka.chatapp.presentation.adapter.MessagesAdapter
@@ -82,6 +83,7 @@ class OneToOneChatActivity : AppCompatActivity() {
         }
 
         binding.goBack.setOnClickListener {
+            clickedConversationRecipientId = -1
             finish()
         }
 
@@ -233,6 +235,7 @@ class OneToOneChatActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        clickedConversationRecipientId = -1
         this.finish()
     }
 
@@ -250,9 +253,10 @@ class OneToOneChatActivity : AppCompatActivity() {
                 try {
                     val gson = Gson()
                     val messageData = gson.fromJson(jsonString, MessageWrapper::class.java)
+                    Log.i("MYTAG", "One-to-one chat -> onEvent: {${messageData.message.decryptedMessage}}")
                     val messageUserId = messageData.message.userId
 
-                    if (messageUserId != activeUser?.id) {
+                    if (messageUserId == conversationResponse?.recipient?.id) {
                         CoroutineScope(Dispatchers.Main).launch {
                             displayMessage(messageData.message)
                         }
@@ -281,6 +285,7 @@ class OneToOneChatActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        clickedConversationRecipientId = -1
         preventFetchingEventMultipleTimes()
         super.onDestroy()
     }

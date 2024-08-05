@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.endritgjoka.chatapp.R
+import com.endritgjoka.chatapp.data.model.Conversation
 import com.endritgjoka.chatapp.data.model.User
 import com.endritgjoka.chatapp.data.model.pusher.MessageWrapper
 import com.endritgjoka.chatapp.data.model.responses.ConversationResponse
@@ -24,6 +25,7 @@ import com.endritgjoka.chatapp.data.utils.hideKeyboard
 import com.endritgjoka.chatapp.data.utils.navigate
 import com.endritgjoka.chatapp.databinding.ActivityHomeBinding
 import com.endritgjoka.chatapp.presentation.ChatApp
+import com.endritgjoka.chatapp.presentation.ChatApp.Companion.clickedConversationRecipientId
 import com.endritgjoka.chatapp.presentation.adapter.ConversationsAdapter
 import com.endritgjoka.chatapp.presentation.viewmodel.ChatViewModel
 import com.endritgjoka.chatapp.presentation.views.fragments.LogOutDialogFragment
@@ -34,6 +36,7 @@ import com.pusher.client.channel.PusherEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONException
 
@@ -156,7 +159,21 @@ class HomeActivity : AppCompatActivity() {
                 val conversation = gson.toJson(conversationResponse)
                 val bundle = Bundle()
                 bundle.putString("conversation", conversation)
+                clickedConversationRecipientId = conversationResponse.recipient.id
                 navigate(OneToOneChatActivity::class.java,this@HomeActivity, bundle)
+                val conv = conversationsAdapter?.list?.find { conversationResponse.recipient.id == it.recipient.id }
+                val index = conversationsAdapter?.list?.indexOf(conversationResponse) ?: 0
+                CoroutineScope(Dispatchers.Main).launch {
+                    delay(1000L)
+                    if (conv != null) {
+                        if(conv.conversation != null){
+                            conv.conversation.unreadMessages = 0
+                        }
+                        conversationsAdapter?.list?.set(index, conv)
+                        conversationsAdapter?.notifyDataSetChanged()
+                    }
+                }
+
             }
 
         }
@@ -164,7 +181,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        chatViewModel.getConversations()
+//        chatViewModel.getConversations()
     }
 
     private fun subscribeChannel() {
@@ -185,19 +202,35 @@ class HomeActivity : AppCompatActivity() {
                     var isNewConversation =  conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id } == null
                     Log.i("MYTAG", "onEvent: {${messageData.message.decryptedMessage}}")
                     val recipient = messageData.message.user
-                    val conversationResponse = ConversationResponse(null,messageData.message,recipient)
+                    val conversationObj = if(isNewConversation){
+                        Conversation(-1, 1,"private",messageData.message, activeUser?.id!!,messageData.otherUserId,"" ,"","")
+                    }else{
+                        conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id }?.conversation
+                    }
+                    if(clickedConversationRecipientId == messageData.otherUserId){
+                        conversationObj?.unreadMessages= 0
+                    }
+                    val conversationResponse = ConversationResponse(conversationObj,messageData.message,recipient)
                     CoroutineScope(Dispatchers.Main).launch {
                         if(isNewConversation){
+                            isNewConversation = false
                             if(conversationsAdapter == null){
                                 initializeConversationsRecyclerView(ArrayList())
                             }
                             displayNewConversation(conversationResponse)
                         }else{
                             val conv = conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id }
-                            val index = conversationsAdapter?.list?.indexOf(conv) ?: -1
-                            conv?.lastMessage = messageData.message
                             if (conv != null) {
-                                conversationsAdapter?.list?.set(index, conv)
+                                conversationsAdapter?.list?.remove(conv)
+                                conv.lastMessage = messageData.message
+                                if(conv.conversation != null && messageData.otherUserId == conversationResponse.recipient.id){
+                                    conv.conversation.unreadMessages += 1
+                                }
+                                if(clickedConversationRecipientId == messageData.otherUserId){
+                                    conv.conversation?.unreadMessages= 0
+                                }
+
+                                conversationsAdapter?.list?.add(0, conv)
                                 conversationsAdapter?.notifyDataSetChanged()
                             }
 
@@ -223,7 +256,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun displayNewConversation(conversationResponse: ConversationResponse){
         conversationsAdapter?.list?.add(0,conversationResponse)
-        binding.chatsRecyclerView.adapter = conversationsAdapter
         conversationsAdapter?.notifyDataSetChanged()
     }
 }

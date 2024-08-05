@@ -1,65 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-  >
+    android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/padding10"
         android:paddingVertical="@dimen/padding14"
-        android:paddingHorizontal="@dimen/padding10">
+        android:gravity="center"
+    >
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/profile_pic"
-        android:layout_width="@dimen/button48"
-        android:maxWidth="@dimen/button48"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_user_profile"
-        app:shapeAppearanceOverlay="@style/circular"
-        android:scaleType="fitCenter"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_weight="0.8"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="@dimen/padding10">
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/profile_pic"
+            android:layout_width="@dimen/button48"
+            android:layout_height="match_parent"
+            android:maxWidth="@dimen/button48"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_user_profile"
+            app:shapeAppearanceOverlay="@style/circular" />
 
-        <TextView
-            android:id="@+id/recipient_name"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Endrit Gjoka"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/bold"/>
-        <TextView
-            android:id="@+id/last_message"
-            android:layout_width="match_parent"
+            android:layout_marginStart="@dimen/padding10"
+            android:layout_weight="0.8"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/recipient_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/bold"
+                android:maxLines="1"
+                android:text="Endrit Gjoka" />
+
+            <TextView
+                android:id="@+id/last_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/medium"
+                android:textColor="@color/text_color"
+                android:maxLines="1"
+                android:text="Qka bane ti" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Qka bane ti"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:fontFamily="@font/medium"/>
+            android:layout_marginStart="@dimen/padding10"
+            android:layout_weight="0.2"
+            android:orientation="vertical"
+            android:layout_gravity="top">
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fontFamily="@font/regular"
+                android:layout_gravity="end"
+                android:maxLines="1"
+                android:text="12:05" />
+            <LinearLayout
+                android:id="@+id/badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge"
+                android:paddingHorizontal="@dimen/padding10"
+                android:paddingVertical="@dimen/_3sdp"
+                android:visibility="invisible"
+                android:layout_gravity="end"
+                >
+                <TextView
+                    android:id="@+id/unread_notifications_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_10ssp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_weight="0.2"
-        android:layout_height="wrap_content"
-        android:text="12:05"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:fontFamily="@font/regular"
-        android:gravity="end"/>
-    </LinearLayout>
+
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/translation1"
-        android:background="@color/border_color"
-        />
+        android:background="@color/border_color" />
 
 </LinearLayout>

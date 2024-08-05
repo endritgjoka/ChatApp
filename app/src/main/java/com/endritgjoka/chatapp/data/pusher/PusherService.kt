@@ -24,7 +24,7 @@ class PusherService() {
 
         headers["Authorization"] = AppPreferences.authorization
 
-        val BASE_URL = "http://192.168.100.160:8000/broadcasting/auth"
+        val BASE_URL = "http://192.168.0.102:8000/broadcasting/auth"
 
         val authorizer = HttpChannelAuthorizer(BASE_URL)
         authorizer.setHeaders(headers)

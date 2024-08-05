@@ -29,6 +29,7 @@ class ChatViewModel @Inject constructor(
 
     val messages = MutableLiveData<ArrayList<Message>?>()
     val failedFetchingMessages = MutableLiveData<String?>()
+    val clickedConversationRecipientId = MutableLiveData<Int?>()
 
     fun getConversationMessages(recipientId:Int){
         viewModelScope.launch(Dispatchers.IO) {

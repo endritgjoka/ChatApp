@@ -124,9 +124,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/_20sdp"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/_22sdp"
+        android:paddingLeft="@dimen/padding14"
         android:paddingTop="@dimen/_10sdp"
-        android:paddingRight="@dimen/_22sdp"
+        android:paddingRight="@dimen/padding14"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -161,8 +161,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/sendMessage"
-                android:layout_width="@dimen/_38sdp"
-                android:layout_height="@dimen/_38sdp"
+                android:layout_width="@dimen/_33sdp"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginStart="@dimen/_10sdp"
                 android:scaleType="centerCrop"

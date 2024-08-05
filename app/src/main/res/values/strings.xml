@@ -36,5 +36,7 @@
     <string name="fields_are_required">Fields are required!</string>
     <string name="register_to_get_started">Register to get started!</string>
     <string name="no_messages_yet">No messages yet. Start chatting now.</string>
+    <string name="new_message">New message</string>
+    <string name="new_messages">New messages</string>
 
 </resources>
