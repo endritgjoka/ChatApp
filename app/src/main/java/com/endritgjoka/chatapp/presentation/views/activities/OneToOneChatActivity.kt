@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.endritgjoka.chatapp.R
 import com.endritgjoka.chatapp.data.model.Message
 import com.endritgjoka.chatapp.data.model.User
+import com.endritgjoka.chatapp.data.model.pusher.MessageWrapper
 import com.endritgjoka.chatapp.data.model.requests.MessageRequest
 import com.endritgjoka.chatapp.data.model.responses.ConversationResponse
 import com.endritgjoka.chatapp.data.pusher.PusherService
@@ -25,12 +27,23 @@ import com.endritgjoka.chatapp.data.utils.navigate
 import com.endritgjoka.chatapp.data.utils.showKeyboard
 import com.endritgjoka.chatapp.databinding.ActivityOneToOneChatBinding
 import com.endritgjoka.chatapp.databinding.ChatCardViewBinding
+import com.endritgjoka.chatapp.presentation.ChatApp
+import com.endritgjoka.chatapp.presentation.ChatApp.Companion.userChannel
 import com.endritgjoka.chatapp.presentation.adapter.ConversationsAdapter
 import com.endritgjoka.chatapp.presentation.adapter.MessagesAdapter
 import com.endritgjoka.chatapp.presentation.viewmodel.ChatViewModel
 import com.google.gson.Gson
 import com.pusher.client.channel.PrivateChannel
+import com.pusher.client.channel.PrivateChannelEventListener
+import com.pusher.client.channel.PusherEvent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import org.json.JSONException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -42,9 +55,11 @@ class OneToOneChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOneToOneChatBinding
     val chatViewModel: ChatViewModel by viewModels()
     private var conversationResponse: ConversationResponse? = null
-    private var messagesAdapter: MessagesAdapter ?= null
+    private var messagesAdapter: MessagesAdapter? = null
     private var activeUser: User? = null
     private var messageToBeSent: String = ""
+    private var previousPrivateEventListener: PrivateChannelEventListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityOneToOneChatBinding.inflate(layoutInflater)
@@ -53,13 +68,15 @@ class OneToOneChatActivity : AppCompatActivity() {
         val gson = Gson()
         val conversationStr = intent.getStringExtra("conversation")
         conversationResponse = gson.fromJson(conversationStr, ConversationResponse::class.java)
+        markConversationAsRead()
         setRecipient()
+        fetchNewMessages()
         getMessages()
         onWritingMessage()
         binding.sendMessage.setOnClickListener {
             var messageContent = binding.addMessageEditText.text.toString()
             messageContent = messageContent.trim()
-            if(messageContent.isNotEmpty()){
+            if (messageContent.isNotEmpty()) {
                 sendTextMessage(messageContent)
             }
         }
@@ -67,6 +84,7 @@ class OneToOneChatActivity : AppCompatActivity() {
         binding.goBack.setOnClickListener {
             finish()
         }
+
     }
 
     private fun setRecipient() {
@@ -204,7 +222,7 @@ class OneToOneChatActivity : AppCompatActivity() {
     }
 
     private fun sendTextMessage(content: String) {
-        if(messagesAdapter == null){
+        if (messagesAdapter == null) {
             initializeMessagesRecyclerView(ArrayList())
         }
         displayYourNewMessage(content)
@@ -216,5 +234,63 @@ class OneToOneChatActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         this.finish()
+    }
+
+    private fun markConversationAsRead() {
+        conversationResponse?.recipient?.id?.let { chatViewModel.markConversationAsRead(it) }
+    }
+
+    private fun fetchNewMessages() {
+        if (previousPrivateEventListener != null) {
+            userChannel?.unbind("NewMessage", previousPrivateEventListener)
+        }
+        val newPrivateEventListener = object : PrivateChannelEventListener {
+            override fun onEvent(event: PusherEvent?) {
+                val jsonString = event?.data
+                try {
+                    val gson = Gson()
+                    val messageData = gson.fromJson(jsonString, MessageWrapper::class.java)
+                    val messageUserId = messageData.message.userId
+
+                    if (messageUserId != activeUser?.id) {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            displayMessage(messageData.message)
+                        }
+                        conversationResponse?.recipient?.id?.let {
+                            chatViewModel.markConversationAsRead(
+                                it
+                            )
+                        }
+                    }
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    Log.i("MYTAG", e.message.toString())
+                }
+            }
+
+            override fun onSubscriptionSucceeded(channelName: String?) {
+                Log.i("MYTAG", "123")
+            }
+
+            override fun onAuthenticationFailure(message: String?, e: Exception?) {
+                Log.i("MYTAG", message.toString())
+            }
+        }
+        userChannel?.bind("NewMessage", newPrivateEventListener)
+        previousPrivateEventListener = newPrivateEventListener
+    }
+
+    override fun onDestroy() {
+        preventFetchingEventMultipleTimes()
+        super.onDestroy()
+    }
+
+    private fun preventFetchingEventMultipleTimes() {
+        if (userChannel?.isSubscribed == true) {
+            if (previousPrivateEventListener != null) {
+                userChannel?.unbind("NewMessage", previousPrivateEventListener)
+                previousPrivateEventListener = null
+            }
+        }
     }
 }

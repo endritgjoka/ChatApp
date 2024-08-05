@@ -1,5 +1,6 @@
 package com.endritgjoka.chatapp.data.repository.remoteDataSource
 
+import com.endritgjoka.chatapp.data.model.Conversation
 import com.endritgjoka.chatapp.data.model.Message
 import com.endritgjoka.chatapp.data.model.User
 import com.endritgjoka.chatapp.data.model.requests.LoginRequest
@@ -13,6 +14,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ChatRemoteDataSource {
@@ -22,4 +24,5 @@ interface ChatRemoteDataSource {
     suspend fun getConversations(): Response<ApiResponse<ArrayList<ConversationResponse>>>
     suspend fun getConversationMessages(recipientId: Int): Response<ApiResponse<ArrayList<Message>>>
     suspend fun sendMessage(recipientId: Int, messageRequest: MessageRequest): Response<ApiResponse<Message>>
+    suspend fun markConversationAsRead(recipientId: Int): Response<ApiResponse<Conversation>>
 }

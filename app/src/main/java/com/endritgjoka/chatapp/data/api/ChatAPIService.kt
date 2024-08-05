@@ -1,5 +1,6 @@
 package com.endritgjoka.chatapp.data.api
 
+import com.endritgjoka.chatapp.data.model.Conversation
 import com.endritgjoka.chatapp.data.model.Message
 import com.endritgjoka.chatapp.data.model.User
 import com.endritgjoka.chatapp.data.model.requests.LoginRequest
@@ -13,6 +14,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ChatAPIService {
@@ -49,4 +51,10 @@ interface ChatAPIService {
         @Body messageRequest: MessageRequest,
         @Header("Authorization") authorization:String
     ): Response<ApiResponse<Message>>
+
+    @PUT("conversation/read/{recipient}")
+    suspend fun markConversationAsRead(
+        @Path("recipient") recipientId: Int,
+        @Header("Authorization") authorization:String
+    ): Response<ApiResponse<Conversation>>
 }

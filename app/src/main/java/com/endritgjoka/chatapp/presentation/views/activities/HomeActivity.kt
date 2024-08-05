@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.endritgjoka.chatapp.R
+import com.endritgjoka.chatapp.data.model.User
 import com.endritgjoka.chatapp.data.model.pusher.MessageWrapper
 import com.endritgjoka.chatapp.data.model.responses.ConversationResponse
 import com.endritgjoka.chatapp.data.pusher.PusherService
@@ -22,6 +23,7 @@ import com.endritgjoka.chatapp.data.utils.AppPreferences.activeUser
 import com.endritgjoka.chatapp.data.utils.hideKeyboard
 import com.endritgjoka.chatapp.data.utils.navigate
 import com.endritgjoka.chatapp.databinding.ActivityHomeBinding
+import com.endritgjoka.chatapp.presentation.ChatApp
 import com.endritgjoka.chatapp.presentation.adapter.ConversationsAdapter
 import com.endritgjoka.chatapp.presentation.viewmodel.ChatViewModel
 import com.endritgjoka.chatapp.presentation.views.fragments.LogOutDialogFragment
@@ -39,9 +41,10 @@ import org.json.JSONException
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     val chatViewModel: ChatViewModel by viewModels()
-    private lateinit var conversationsAdapter: ConversationsAdapter
+    private var conversationsAdapter: ConversationsAdapter ? = null
     var pusherService: PusherService ?= null
     var userChannel: PrivateChannel?= null
+    private var conversationsList = ArrayList<ConversationResponse>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,7 +108,6 @@ class HomeActivity : AppCompatActivity() {
                 initializeConversationsRecyclerView(list)
             }
             binding.chatsRecyclerView.visibility = View.VISIBLE
-//            binding.recyclerForSearchedPosts.visibility = View.GONE
         }
 
         chatViewModel.searchedConversations.observe(this){list ->
@@ -139,7 +141,7 @@ class HomeActivity : AppCompatActivity() {
             chatsRecyclerView.apply {
                 conversationsAdapter = ConversationsAdapter()
                 implementInterface()
-                conversationsAdapter.list = list
+                conversationsAdapter?.list = list
                 layoutManager = LinearLayoutManager(this@HomeActivity,LinearLayoutManager.VERTICAL, false)
                 adapter = conversationsAdapter
             }
@@ -147,8 +149,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun implementInterface(){
-        conversationsAdapter.customListener = object : ConversationsAdapter.CustomListener{
+        conversationsAdapter?.customListener = object : ConversationsAdapter.CustomListener{
             override fun onChatClicked(conversationResponse: ConversationResponse) {
+                binding.search.setText("")
                 val gson = Gson()
                 val conversation = gson.toJson(conversationResponse)
                 val bundle = Bundle()
@@ -168,9 +171,7 @@ class HomeActivity : AppCompatActivity() {
         pusherService = PusherService()
         pusherService?.connectPusher()
         userChannel = pusherService?.subscribeChannel("private-user.${activeUser?.id}")
-//        userViewModel.blogChannel.postValue(blogChannel)
-//        userViewModel.userChannel.postValue(userChannel)
-//        ViewModelsHolder.userViewModel = userViewModel
+        ChatApp.userChannel = userChannel
         fetchNewMessages()
     }
 
@@ -181,53 +182,27 @@ class HomeActivity : AppCompatActivity() {
                     val jsonString = event?.data
                     val gson = Gson()
                     val messageData = gson.fromJson(jsonString, MessageWrapper::class.java)
-                    var isNewConversation = true
+                    var isNewConversation =  conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id } == null
                     Log.i("MYTAG", "onEvent: {${messageData.message.decryptedMessage}}")
+                    val recipient = messageData.message.user
+                    val conversationResponse = ConversationResponse(null,messageData.message,recipient)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        if(isNewConversation){
+                            if(conversationsAdapter == null){
+                                initializeConversationsRecyclerView(ArrayList())
+                            }
+                            displayNewConversation(conversationResponse)
+                        }else{
+                            val conv = conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id }
+                            val index = conversationsAdapter?.list?.indexOf(conv) ?: -1
+                            conv?.lastMessage = messageData.message
+                            if (conv != null) {
+                                conversationsAdapter?.list?.set(index, conv)
+                                conversationsAdapter?.notifyDataSetChanged()
+                            }
 
-
-//                    CoroutineScope(Dispatchers.Main).launch {
-//                        for (i in 0 until conversationsList.size) {
-//                            var conversation = conversationsList[i]
-//                            if (conversation.id == messageData.cid) {
-//                                isNewConversation = false
-//                                messageData.message.fullname = messageData.user_fullname
-//                                messageData.message.profile_picture = messageData.user_picture
-//                                messageToBeInserted = messageData.message
-//                                break
-//                            }
-//
-//                        }
-//                        if (isNewConversation) {
-//                            var recipientID = if (messageData.message.user_id == userID) {
-//                                messageData.conversationId.toInt()
-//                            } else {
-//                                if(messageData.conversationType =="group"){
-//                                    messageData.conversationId.toInt()
-//                                } else {
-//                                    messageData.message.user_id
-//                                }
-//                            }
-//
-//                            messageData.message.messageState = MessageState.SENT.name
-//                            var conversation = Conversation(
-//                                messageData.cid,
-//                                messageData.unread_messages,
-//                                messageData.conversationType,
-//                                messageData.message,
-//                                recipientID,
-//                                messageData.conversation_name,
-//                                messageData.conversation_picture,
-//                                userID
-//                            )
-//                            messageData.message.fullname = messageData.user_fullname
-//                            messageData.message.profile_picture = messageData.user_picture
-//                            messageToBeInserted = messageData.message
-//                            insertNewConversation(
-//                                messageData.message,
-//                                getConversationEntity(conversation, messageData.message.id)
-//                            )
-//                        }
-//                    }
+                        }
+                    }
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -244,6 +219,12 @@ class HomeActivity : AppCompatActivity() {
             }
         }
         userChannel?.bind("NewMessage", newPrivateEventListener)
+    }
+
+    private fun displayNewConversation(conversationResponse: ConversationResponse){
+        conversationsAdapter?.list?.add(0,conversationResponse)
+        binding.chatsRecyclerView.adapter = conversationsAdapter
+        conversationsAdapter?.notifyDataSetChanged()
     }
 }
 

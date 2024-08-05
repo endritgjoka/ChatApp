@@ -1,6 +1,7 @@
 package com.endritgjoka.chatapp.data.repository.remoteDataSourceImpl
 
 import com.endritgjoka.chatapp.data.api.ChatAPIService
+import com.endritgjoka.chatapp.data.model.Conversation
 import com.endritgjoka.chatapp.data.model.Message
 import com.endritgjoka.chatapp.data.model.User
 import com.endritgjoka.chatapp.data.model.requests.LoginRequest
@@ -41,5 +42,9 @@ class ChatRemoteDataSourceImpl(private val chatAPIService: ChatAPIService): Chat
         messageRequest: MessageRequest
     ): Response<ApiResponse<Message>> {
         return chatAPIService.sendMessage(recipientId, messageRequest, AppPreferences.authorization)
+    }
+
+    override suspend fun markConversationAsRead(recipientId: Int): Response<ApiResponse<Conversation>> {
+        return chatAPIService.markConversationAsRead(recipientId, AppPreferences.authorization)
     }
 }

@@ -9,7 +9,5 @@ data class MessageWrapper(
     var otherUserId:Int,
     @SerializedName("conversation_type")
     var conversationType:String,
-    var unread_conversations:Int,
     var unread_messages:Int,
-    var cid:Int,
 )

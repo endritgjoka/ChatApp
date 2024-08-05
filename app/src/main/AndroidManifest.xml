@@ -22,7 +22,8 @@
         <activity
             android:name=".presentation.views.activities.OneToOneChatActivity"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".presentation.views.activities.HomeActivity"
             android:exported="false"

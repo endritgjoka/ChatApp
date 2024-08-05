@@ -8,6 +8,6 @@ import com.google.gson.annotations.SerializedName
 data class ConversationResponse(
     val conversation: Conversation ?= null,
     @SerializedName("last_message")
-    val lastMessage: Message ?= null,
+    var lastMessage: Message ?= null,
     val recipient:User
 )

@@ -10,6 +10,7 @@ import com.endritgjoka.chatapp.data.model.responses.ConversationResponse
 import com.endritgjoka.chatapp.data.utils.ApiHandler
 import com.endritgjoka.chatapp.data.utils.Resource
 import com.endritgjoka.chatapp.domain.ChatRepository
+import com.pusher.client.channel.PrivateChannel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -98,6 +99,28 @@ class ChatViewModel @Inject constructor(
     fun sendMessage(recipientId:Int,messageRequest: MessageRequest){
         viewModelScope.launch(Dispatchers.IO) {
             val response = ApiHandler.safeApiCall { chatRepository.sendMessage(recipientId,messageRequest) }
+
+            when (response) {
+                is Resource.Success -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        response.data?.let {
+
+                        }
+                    }
+                }
+
+                is Resource.Error -> {
+                    CoroutineScope(Dispatchers.Main).launch {
+
+                    }
+                }
+            }
+        }
+    }
+
+    fun markConversationAsRead(recipientId:Int){
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = ApiHandler.safeApiCall { chatRepository.markConversationAsRead(recipientId) }
 
             when (response) {
                 is Resource.Success -> {

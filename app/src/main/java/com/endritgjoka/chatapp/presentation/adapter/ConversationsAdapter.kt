@@ -68,8 +68,8 @@ class ConversationsAdapter : RecyclerView.Adapter<ConversationsAdapter.MyViewHol
                     with(binding){
                         recipientName.text = conversationResponse.recipient.fullName
                         if(conversationResponse.lastMessage != null){
-                            lastMessage.text = conversationResponse.lastMessage.decryptedMessage
-                            time.text = conversationResponse.lastMessage.formattedTime
+                            lastMessage.text = conversationResponse.lastMessage?.decryptedMessage
+                            time.text = conversationResponse.lastMessage?.formattedTime
                         }else{
                             lastMessage.text = ChatApp.application.getString(R.string.no_messages_yet)
                             time.text = ""
