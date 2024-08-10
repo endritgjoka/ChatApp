@@ -25,6 +25,13 @@ fun Fragment.findNavControllerSafely(): NavController? {
     }
 }
 
+fun Fragment.safePopBackStack(): Boolean {
+    return with(findNavControllerSafely()) {
+        this?.popBackStack() ?: false
+    }
+}
+
+
 fun <T : Activity> navigate(activityClass: Class<T>, context: Context, extras: Bundle? = null) {
     Intent(context, activityClass).also { intent ->
         extras?.let {

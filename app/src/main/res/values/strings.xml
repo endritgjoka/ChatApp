@@ -38,5 +38,7 @@
     <string name="no_messages_yet">No messages yet. Start chatting now.</string>
     <string name="new_message">New message</string>
     <string name="new_messages">New messages</string>
+    <string name="you_don_t_have_chats_yet_start_chatting_now">You don\'t have chats yet. Start chatting now.</string>
+    <string name="no_results_found">No results found</string>
 
 </resources>

@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <Toolbar
+<Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,13 +57,16 @@
             android:layout_height="wrap_content"
             android:hint="@string/full_name"
             android:layout_marginBottom="@dimen/padding6"
-            android:textColorHint="@color/grey"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <EditText
                 android:id="@+id/fullNameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:background="@drawable/custom_field_background"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -72,7 +76,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email"
-            android:textColorHint="@color/grey"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
             android:layout_marginBottom="@dimen/padding6"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -80,6 +85,8 @@
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:background="@drawable/custom_field_background"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,7 +96,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:textColorHint="@color/grey"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
             android:layout_marginBottom="@dimen/padding6"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
@@ -97,6 +105,8 @@
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:inputType="textPassword"
                 android:background="@drawable/custom_field_background"
                 />
@@ -107,13 +117,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confirm_password"
-            android:textColorHint="@color/grey"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             app:passwordToggleEnabled="true">
             <EditText
                 android:id="@+id/confirmPasswordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:inputType="textPassword"
                 android:background="@drawable/custom_field_background"
                 />
@@ -134,7 +147,7 @@
             android:fontFamily="@font/medium"
             android:text="@string/already_have_an_account"
             android:textColor="@color/dark"
-            android:textSize="@dimen/txtSize14"
+            android:textSize="@dimen/txtSize18"
             android:gravity="center_horizontal"
             android:layout_marginEnd="@dimen/padding8"/>
         <TextView
@@ -144,7 +157,7 @@
             android:fontFamily="@font/bold"
             android:text="@string/login"
             android:textColor="@color/blue"
-            android:textSize="@dimen/txtSize14"
+            android:textSize="@dimen/txtSize18"
             android:gravity="center_horizontal"/>
     </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.endritgjoka.chatapp.presentation.di
 
 import com.endritgjoka.chatapp.data.api.ChatAPIService
+import com.endritgjoka.chatapp.data.utils.BASE_URL
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -15,7 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class NetModule {
-    private val BASE_URL = "http://192.168.0.102:8000/api/v1/"
+    private val url = BASE_URL + "api/v1/"
 
     @Singleton
     @Provides
@@ -31,7 +32,7 @@ class NetModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl(BASE_URL)
+            .baseUrl(url)
             .build()
     }
 

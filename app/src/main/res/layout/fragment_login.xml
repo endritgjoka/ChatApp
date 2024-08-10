@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:gravity="center"
+    android:background="@color/white">
 
     <Toolbar
         android:id="@+id/toolbar"
@@ -59,12 +60,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding6"
             android:hint="@string/enter_your_email"
-            android:textColorHint="@color/grey">
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black">
 
             <EditText
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:background="@drawable/custom_field_background"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -76,13 +80,16 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/padding6"
             android:hint="@string/enter_your_password"
-            android:textColorHint="@color/grey"
+            app:cursorColor="@color/black"
+            app:hintTextColor="@color/black"
             app:passwordToggleEnabled="true">
 
             <EditText
                 android:id="@+id/passwordEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
                 android:background="@drawable/custom_field_background"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -130,7 +137,7 @@
             android:fontFamily="@font/medium"
             android:text="@string/don_t_have_an_account"
             android:textColor="@color/dark"
-            android:textSize="@dimen/txtSize14"
+            android:textSize="@dimen/txtSize18"
             android:gravity="center_horizontal"
             android:layout_marginEnd="@dimen/padding8"
             />
@@ -141,7 +148,7 @@
             android:fontFamily="@font/bold"
             android:text="@string/register"
             android:textColor="@color/blue"
-            android:textSize="@dimen/txtSize14"
+            android:textSize="@dimen/txtSize18"
             android:gravity="center_horizontal"
             />
     </LinearLayout>

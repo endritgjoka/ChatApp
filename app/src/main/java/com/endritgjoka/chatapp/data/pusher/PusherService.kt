@@ -2,6 +2,7 @@ package com.endritgjoka.chatapp.data.pusher
 
 import android.util.Log
 import com.endritgjoka.chatapp.data.utils.AppPreferences
+import com.endritgjoka.chatapp.data.utils.BASE_URL
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
 import com.pusher.client.channel.PrivateChannel
@@ -24,9 +25,9 @@ class PusherService() {
 
         headers["Authorization"] = AppPreferences.authorization
 
-        val BASE_URL = "http://192.168.0.102:8000/broadcasting/auth"
+        val url = BASE_URL + "broadcasting/auth"
 
-        val authorizer = HttpChannelAuthorizer(BASE_URL)
+        val authorizer = HttpChannelAuthorizer(url)
         authorizer.setHeaders(headers)
         options.channelAuthorizer = authorizer
 

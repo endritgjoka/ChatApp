@@ -60,7 +60,7 @@ class HomeActivity : AppCompatActivity() {
         getConversations()
 
         searchUsers()
-
+        onRefreshListener()
     }
 
     private fun openPopupMenu(popupView: View) {
@@ -108,29 +108,63 @@ class HomeActivity : AppCompatActivity() {
             binding.search.clearFocus()
             binding.search.setText("")
             chatViewModel.allConversations.value?.let { list ->
-                initializeConversationsRecyclerView(list)
+                if (list.isEmpty()){
+                    binding.emptyView.isVisible = true
+                    binding.emptySearchView.isVisible = false
+                    binding.chatsRecyclerView.isVisible = false
+                    binding.progressBar.isVisible = false
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }else{
+                    initializeConversationsRecyclerView(list)
+                }
             }
-            binding.chatsRecyclerView.visibility = View.VISIBLE
         }
 
         chatViewModel.searchedConversations.observe(this){list ->
             list?.let {
-                initializeConversationsRecyclerView(list)
+                if(list.isEmpty()){
+                    binding.emptySearchView.isVisible = true
+                    binding.emptyView.isVisible = false
+                    binding.chatsRecyclerView.isVisible = false
+                    binding.progressBar.isVisible = false
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }else{
+                    initializeConversationsRecyclerView(list)
+                }
             }
         }
 
+    }
+
+    private fun onRefreshListener(){
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            onRefresh()
+        }
+    }
+
+    private fun onRefresh() {
+        chatViewModel.getConversations()
     }
 
     private fun getConversations() {
         chatViewModel.getConversations()
         chatViewModel.allConversations.observe(this){list ->
             list?.let {
-                initializeConversationsRecyclerView(list)
+                if(list.isEmpty()){
+                    binding.emptyView.isVisible = true
+                    binding.emptySearchView.isVisible = false
+                    binding.chatsRecyclerView.isVisible = false
+                    binding.progressBar.isVisible = false
+                    binding.swipeRefreshLayout.isRefreshing = false
+                }else{
+                    initializeConversationsRecyclerView(list)
+                }
             }
         }
 
         chatViewModel.failedFetchingConversations.observe(this){message ->
             message?.let {
+                binding.swipeRefreshLayout.isRefreshing = false
                 binding.progressBar.isVisible = false
                 Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 chatViewModel.failedFetchingConversations.postValue(null)
@@ -140,6 +174,9 @@ class HomeActivity : AppCompatActivity() {
     private fun initializeConversationsRecyclerView(list: ArrayList<ConversationResponse>){
         with(binding){
             progressBar.isVisible = false
+            binding.emptyView.isVisible = false
+            binding.emptySearchView.isVisible = false
+            binding.swipeRefreshLayout.isRefreshing = false
             chatsRecyclerView.isVisible = true
             chatsRecyclerView.apply {
                 conversationsAdapter = ConversationsAdapter()
@@ -165,12 +202,17 @@ class HomeActivity : AppCompatActivity() {
                 val index = conversationsAdapter?.list?.indexOf(conversationResponse) ?: 0
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(1000L)
+                    chatViewModel.allConversations.value?.let { list ->
+                        conversationsAdapter?.list = list
+                    }
                     if (conv != null) {
                         if(conv.conversation != null){
                             conv.conversation.unreadMessages = 0
                         }
-                        conversationsAdapter?.list?.set(index, conv)
-                        conversationsAdapter?.notifyDataSetChanged()
+                        if(conversationsAdapter?.itemCount!! > 0){
+                            conversationsAdapter?.list?.set(index, conv)
+                            conversationsAdapter?.notifyDataSetChanged()
+                        }
                     }
                 }
 

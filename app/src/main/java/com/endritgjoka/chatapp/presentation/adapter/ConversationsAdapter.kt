@@ -1,7 +1,11 @@
 package com.endritgjoka.chatapp.presentation.adapter
 
 import android.annotation.SuppressLint
+import android.content.res.ColorStateList
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -62,7 +66,9 @@ class ConversationsAdapter : RecyclerView.Adapter<ConversationsAdapter.MyViewHol
 
     inner class MyViewHolder(private val binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        @SuppressLint("NotifyDataSetChanged", "ResourceAsColor")
+        @SuppressLint("NotifyDataSetChanged", "ResourceAsColor", "ClickableViewAccessibility",
+            "UseCompatLoadingForDrawables"
+        )
         fun bind(conversationResponse: ConversationResponse) {
             when (binding) {
                 is ChatCardViewBinding -> {
@@ -91,8 +97,27 @@ class ConversationsAdapter : RecyclerView.Adapter<ConversationsAdapter.MyViewHol
                             time.text = ""
                         }
 
+                        val updateState: (Boolean) -> Unit = { isPressed ->
+                            root.background = ChatApp.application.resources.getDrawable(
+                                if (isPressed) R.drawable.bg_chat_card_pressed else R.drawable.bg_chat_card
+                            )
+
+                        }
+
                         root.setOnClickListener {
+                            updateState(true)
                             customListener.onChatClicked(conversationResponse)
+                            Handler(Looper.getMainLooper()).post {
+                                updateState(false)
+                            }
+                        }
+
+                        root.setOnTouchListener { _, event ->
+                            when (event.action) {
+                                MotionEvent.ACTION_DOWN -> updateState(true)
+                                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> updateState(false)
+                            }
+                            false
                         }
                     }
 
@@ -100,6 +125,8 @@ class ConversationsAdapter : RecyclerView.Adapter<ConversationsAdapter.MyViewHol
             }
         }
     }
+
+
 
     interface CustomListener{
         fun onChatClicked(conversationResponse: ConversationResponse)
