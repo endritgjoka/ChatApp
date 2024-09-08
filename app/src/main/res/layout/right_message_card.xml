@@ -83,7 +83,7 @@
         android:text="@string/sending"
         android:textColor="@color/black"
         android:textSize="@dimen/txtSize8"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/sentText"
         android:layout_width="wrap_content"

@@ -16,7 +16,7 @@ data class Message(
     @SerializedName("encrypted_content")
     val encryptedContent:String,
     @SerializedName("encryption_key")
-    val encryptionKey:String,
+    var encryptionKey:String,
     @SerializedName("created_at")
     val createdAt:String,
     @SerializedName("updated_at")

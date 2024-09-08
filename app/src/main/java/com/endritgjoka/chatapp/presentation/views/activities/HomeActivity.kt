@@ -198,7 +198,7 @@ class HomeActivity : AppCompatActivity() {
                 bundle.putString("conversation", conversation)
                 clickedConversationRecipientId = conversationResponse.recipient.id
                 navigate(OneToOneChatActivity::class.java,this@HomeActivity, bundle)
-                val conv = conversationsAdapter?.list?.find { conversationResponse.recipient.id == it.recipient.id }
+                val conv =  chatViewModel.allConversations.value?.find { conversationResponse.recipient.id == it.recipient.id }
                 val index = conversationsAdapter?.list?.indexOf(conversationResponse) ?: 0
                 CoroutineScope(Dispatchers.Main).launch {
                     delay(1000L)
@@ -241,13 +241,15 @@ class HomeActivity : AppCompatActivity() {
                     val jsonString = event?.data
                     val gson = Gson()
                     val messageData = gson.fromJson(jsonString, MessageWrapper::class.java)
-                    var isNewConversation =  conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id } == null
-                    Log.i("MYTAG", "onEvent: {${messageData.message.decryptedMessage}}")
-                    val recipient = messageData.message.user
+                    Log.i("MYTAG", "otherUserId: ${messageData.otherUserId}}")
+                    Log.i("MYTAG", "onEvent obj: ${conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id }.toString()}")
+                    var isNewConversation = chatViewModel.allConversations.value?.find { messageData.otherUserId == it.recipient.id } == null
+                    val recipient = User(messageData.otherUserId, messageData.otherUserName,"","","")
+                    messageData.message.encryptionKey = messageData.encryptionKey
                     val conversationObj = if(isNewConversation){
                         Conversation(-1, 1,"private",messageData.message, activeUser?.id!!,messageData.otherUserId,"" ,"","")
                     }else{
-                        conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id }?.conversation
+                        chatViewModel.allConversations.value?.find { messageData.otherUserId == it.recipient.id }?.conversation
                     }
                     if(clickedConversationRecipientId == messageData.otherUserId){
                         conversationObj?.unreadMessages= 0
@@ -261,7 +263,7 @@ class HomeActivity : AppCompatActivity() {
                             }
                             displayNewConversation(conversationResponse)
                         }else{
-                            val conv = conversationsAdapter?.list?.find { messageData.otherUserId == it.recipient.id }
+                            val conv = chatViewModel.allConversations.value?.find { messageData.otherUserId == it.recipient.id }
                             if (conv != null) {
                                 conversationsAdapter?.list?.remove(conv)
                                 conv.lastMessage = messageData.message

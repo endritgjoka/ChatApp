@@ -253,8 +253,8 @@ class OneToOneChatActivity : AppCompatActivity() {
                 try {
                     val gson = Gson()
                     val messageData = gson.fromJson(jsonString, MessageWrapper::class.java)
-                    Log.i("MYTAG", "One-to-one chat -> onEvent: {${messageData.message.decryptedMessage}}")
                     val messageUserId = messageData.message.userId
+                    messageData.message.encryptionKey = messageData.encryptionKey
 
                     if (messageUserId == conversationResponse?.recipient?.id) {
                         CoroutineScope(Dispatchers.Main).launch {
